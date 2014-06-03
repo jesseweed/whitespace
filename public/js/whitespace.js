@@ -18,11 +18,16 @@ var WSP = window.WSP || {};
 
 < - - - - - - - - - - - - - - - - - */
 
+WSP.config = {
+  eval: {
+    local: true,
+    remote: false
+  }
+};
 
 WSP.status = {
   user: 'disconnected'
-},
-
+};
 
 WSP.init = function () {  // INITALIZE WSP
 
@@ -102,19 +107,27 @@ WSP.socketListen = function( user ) {
     }
   });
 
-
-
   socket.on('code', function (data) {
 
     $('#client-code').val(data.code);
 
     if ( data.run === true ) {
         $('.log').html('');
-        eval( data.code ); // run the script(s)
+
+        if ( WSP.config.eval.remote === true ) eval( data.code ); // run the script(s)
     }
 
 
   });
+
+
+  // ENABLE EVAL OF OBSERVED CODE ON CMD + ENTER
+  $('body').keydown( function(e) {
+    if ( e.which === 13 && (e.ctrlKey || e.metaKey) ) {
+      if ( WSP.config.eval.local === true ) eval( $('#client-code').val() ); // run the script(s)
+    }
+  });
+
 };
 
 // SEND USER CODE TO OBSERVER
@@ -157,7 +170,7 @@ WSP.run = function( user, cb ) {
 
     if ( e.which === 13 && (e.ctrlKey || e.metaKey) ) {
       cb();
-      eval( $('#sample-code').val() ); // run the script(s)
+      if ( WSP.config.eval.local === true ) eval( $('#sample-code').val() ); // run the script(s)
     }
 
   });

@@ -1,0 +1,16 @@
+{{> header}}
+
+
+{{> code}}
+
+{{> console}}
+
+<script charset="utf-8">
+
+  $( document ).ready( function() {
+    WSP.socketSend('{{user}}');
+  });
+
+</script>
+
+{{> footer}}

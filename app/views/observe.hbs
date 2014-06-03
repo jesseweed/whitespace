@@ -1,0 +1,22 @@
+{{> header}}
+
+
+<textarea id="client-code" name="client-code" class="code" spellcheck="false" placeholder="waiting for input . . ." ></textarea>
+
+<aside id="instructions">
+  &gt; Press CMD + Enter to run your code.
+</aside>
+
+
+{{> console}}
+
+
+<script charset="utf-8">
+
+  $( document ).ready( function() {
+    WSP.socketListen('{{user}}');
+  });
+
+</script>
+
+{{> footer}}
